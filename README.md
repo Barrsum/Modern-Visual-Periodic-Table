@@ -81,27 +81,6 @@ To get a local copy up and running, follow these simple steps.
 2.  **Open the application:**
     Open your web browser and navigate to the local URL provided by Vite (usually `http://localhost:5173/` or a similar port).
 
-## Project Structure
-Modern-Visual-Periodic-Table/
-├── public/ # Static assets (including screenshots)
-├── src/ # Source code
-│ ├── components/ # Reusable React components
-│ │ ├── ElementTile.jsx
-│ │ ├── ElementTile.css
-│ │ ├── ElementDetailCard.jsx
-│ │ ├── ElementDetailCard.css
-│ ├── App.css # Main App component styles
-│ ├── App.jsx # Main Application component (layout, state)
-│ ├── elements.json # Periodic table data
-│ ├── index.css # Global styles
-│ └── main.jsx # Entry point of the React application
-├── .gitignore # Git ignore rules
-├── index.html # Main HTML template
-├── LICENSE.md # MIT License file
-├── package.json # Project dependencies and scripts
-├── README.md # This file
-└── vite.config.js # Vite configuration
-
 
 ## Contributing
 
