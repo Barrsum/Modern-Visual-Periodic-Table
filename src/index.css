@@ -9,6 +9,8 @@ body {
   background-color: #20232a; /* Darker background */
   color: #eee; /* Light grey text */
   line-height: 1.5;
+  /* Prevent body scrolling when detail card might be open */
+  /* overflow: hidden; This might be too restrictive, apply dynamically if needed */
 }
 
 /* Optional: Basic scrollbar styling */
@@ -16,7 +18,7 @@ body {
     width: 8px;
 }
 ::-webkit-scrollbar-track {
-    background: #20232a;
+    background: #282c34; /* Slightly lighter track */
 }
 ::-webkit-scrollbar-thumb {
     background: #555;
@@ -29,26 +31,71 @@ body {
 
 #root {
     min-height: 100vh; /* Ensure it takes full viewport height */
+    display: flex; /* Helps footer stick potentially */
+    flex-direction: column;
 }
+
+/* Ensure App takes available space pushing footer down */
+.App {
+    flex-grow: 1;
+}
+
 
 h1 {
   color: #61dafb; /* React blue */
   margin-top: 20px;
+  font-size: 2.2em; /* Default size */
 }
 h2 {
   color: #61dafb; /* React blue */
   margin-top: 2px;
+  font-size: 1.4em; /* Default size */
+  font-weight: 400;
 }
 h5 {
   color: #61dafb; /* React blue */
   margin-top: 2px;
+  margin-bottom: 15px;
+  font-size: 0.9em; /* Default size */
+   font-weight: 300;
 }
-h7 {
-  margin-top: 2px;
+h7 { /* Usually used for the 'Connect above' text */
+  display: block; /* Make it block */
+  margin-top: 5px; /* Add space above */
+  font-size: 0.8em; /* Smaller text */
+  color: #aaa;
 }
 
 * { /* Basic reset */
   box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
+
+/* --- Mobile Responsiveness for Base Headings --- */
+@media (max-width: 768px) {
+  h1 {
+    font-size: 1.8em; /* Smaller H1 */
+    margin-top: 15px;
+  }
+  h2 {
+    font-size: 1.2em; /* Smaller H2 */
+    margin-bottom: 5px;
+  }
+   h5 {
+    font-size: 0.8em; /* Smaller H5 */
+     margin-bottom: 10px;
+  }
+}
+
+@media (max-width: 480px) {
+  h1 {
+    font-size: 1.6em; /* Even smaller H1 */
+  }
+  h2 {
+    font-size: 1.1em; /* Even smaller H2 */
+  }
+}
+
 
 /* Created by Ram Bapat, www.linkedin.com/in/ram-bapat-barrsum-diamos */
