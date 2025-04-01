@@ -1,0 +1,79 @@
+/* src/components/ElementTile.css */
+
+.element-tile {
+    border: 1px solid #555;
+    padding: 4px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center; /* Center content vertically */
+    text-align: center;
+    background-color: rgba(255, 255, 255, 0.1); /* Default semi-transparent white */
+    border-radius: 4px;
+    cursor: pointer; /* Makes it look clickable */
+    transition: transform 0.2s ease, background-color 0.2s ease, border-color 0.2s ease, opacity 0.2s ease;
+    font-size: 9px; /* Smaller font for name */
+    overflow: hidden; /* Prevent content spillover */
+    user-select: none; /* Prevent text selection on click */
+  }
+  
+  .element-tile strong { /* Style the symbol */
+    font-size: 16px;
+    font-weight: bold;
+    display: block; /* Put symbol on its own line */
+  }
+  
+  .element-tile small { /* Style the atomic number */
+    font-size: 10px;
+    display: block; /* Put number on its own line */
+    margin-bottom: 2px; /* Space between number and name */
+  }
+  
+  .element-tile span { /* Style the name */
+      white-space: nowrap; /* Prevent name from wrapping */
+      overflow: hidden; /* Hide overflow */
+      text-overflow: ellipsis; /* Show ... if name is too long */
+      max-width: 100%; /* Ensure it doesn't exceed tile width */
+      padding: 0 2px; /* Small horizontal padding */
+  }
+  
+  .element-tile:hover {
+    transform: scale(1.1); /* Slightly enlarge on hover */
+    background-color: rgba(97, 218, 251, 0.3); /* Light blue highlight on hover */
+    border-color: #61dafb;
+    z-index: 10; /* Bring hovered element to the front */
+  }
+  
+  .placeholder-tile {
+    border-style: dashed; /* Make border dashed */
+    border-width: 1px;
+    border-color: #aaa; /* Lighter color for placeholder */
+    opacity: 0.7; /* Slightly faded out */
+    background-color: rgba(100, 100, 100, 0.1); /* Different subtle background */
+  }
+  
+  /* Ensure placeholder hover effect doesn't completely override placeholder look */
+  .placeholder-tile:hover {
+    opacity: 0.9; /* Less transparent on hover */
+    border-color: #61dafb; /* Highlight border */
+    transform: scale(1.1); /* Keep the scale effect */
+    background-color: rgba(97, 218, 251, 0.3); /* Use standard hover background */
+  }
+  
+  
+  /* --- Category Coloring --- */
+  /* Using slightly more vibrant base colors */
+  .diatomic-nonmetal { background-color: rgba(127, 255, 0, 0.3); border-color: #7FFF00; } /* Chartreuse */
+  .noble-gas { background-color: rgba(128, 0, 128, 0.3); border-color: #800080; } /* Purple */
+  .alkali-metal { background-color: rgba(255, 165, 0, 0.3); border-color: #FFA500; } /* Orange */
+  .alkaline-earth-metal { background-color: rgba(255, 255, 0, 0.3); border-color: #FFFF00; } /* Yellow */
+  .metalloid { background-color: rgba(0, 128, 128, 0.3); border-color: #008080; } /* Teal */
+  .polyatomic-nonmetal { background-color: rgba(60, 179, 113, 0.3); border-color: #3CB371; } /* MediumSeaGreen */
+  .post-transition-metal { background-color: rgba(119, 136, 153, 0.3); border-color: #778899; } /* LightSlateGray */
+  .transition-metal { background-color: rgba(255, 192, 203, 0.3); border-color: #FFC0CB; } /* Pink */
+  .lanthanide { background-color: rgba(255, 182, 193, 0.4); border-color: #FFB6C1; } /* LightPink - slightly different */
+  .actinide { background-color: rgba(219, 112, 147, 0.4); border-color: #DB7093; } /* PaleVioletRed - slightly different */
+  .unknown { background-color: rgba(211, 211, 211, 0.3); border-color: #D3D3D3; } /* LightGray */
+
+
+  /* Created by Ram Bapat, www.linkedin.com/in/ram-bapat-barrsum-diamos */

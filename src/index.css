@@ -1,0 +1,54 @@
+/* src/index.css */
+body {
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  margin: 0;
+  background-color: #20232a; /* Darker background */
+  color: #eee; /* Light grey text */
+  line-height: 1.5;
+}
+
+/* Optional: Basic scrollbar styling */
+::-webkit-scrollbar {
+    width: 8px;
+}
+::-webkit-scrollbar-track {
+    background: #20232a;
+}
+::-webkit-scrollbar-thumb {
+    background: #555;
+    border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: #777;
+}
+
+
+#root {
+    min-height: 100vh; /* Ensure it takes full viewport height */
+}
+
+h1 {
+  color: #61dafb; /* React blue */
+  margin-top: 20px;
+}
+h2 {
+  color: #61dafb; /* React blue */
+  margin-top: 2px;
+}
+h5 {
+  color: #61dafb; /* React blue */
+  margin-top: 2px;
+}
+h7 {
+  margin-top: 2px;
+}
+
+* { /* Basic reset */
+  box-sizing: border-box;
+}
+
+/* Created by Ram Bapat, www.linkedin.com/in/ram-bapat-barrsum-diamos */
