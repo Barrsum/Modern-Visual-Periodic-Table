@@ -1,7 +1,7 @@
 # Modern & Visual Periodic Table (React) ✨⚛️
 
 ## Try live demo below
-[Demo]([https://www.linkedin.com/in/ram-bapat-barrsum-diamos](https://modern-visual-periodic-table.vercel.app/).
+Built by Ram Bapat - [LinkedIn Profile](https://www.linkedin.com/in/ram-bapat-barrsum-diamos)
 
 A highly visual and interactive periodic table application built with React and Vite, designed to make learning about the elements engaging and intuitive.
 
