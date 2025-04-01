@@ -1,6 +1,6 @@
 // src/App.jsx
 
-import React, { useState } from 'react'; // Import useState hook
+import React, { useState } from 'react';
 import data from './elements.json';
 import './App.css'; // Global App styles
 import { FaLinkedin, FaGithub } from 'react-icons/fa'; // Social icons
@@ -8,83 +8,97 @@ import ElementTile from './components/ElementTile'; // The tile component
 import ElementDetailCard from './components/ElementDetailCard'; // The detail card component
 
 function App() {
-  // --- Data Preparation (Processing elements, adding placeholders) ---
+  // --- Data Preparation ---
   const originalElements = data.elements;
 
+  // Create placeholders for Lanthanide/Actinide series triggers in the main grid
   const lanthanum = originalElements.find(el => el.number === 57);
   const actinium = originalElements.find(el => el.number === 89);
 
+  // Placeholders use base element data but override position and add a flag
   const placeholderLa = lanthanum ? {
-    ...lanthanum,
+    ...lanthanum, // Copy properties from Lanthanum
+    name: "Lanthanides", // Change name for the placeholder
+    symbol: "La-Lu", // Indicate range
+    category: "lanthanide", // Keep category for color
     xpos: 3,
     ypos: 6,
-    isPlaceholder: true
+    isPlaceholder: true, // Custom flag
+    number: '57-71' // Indicate range in number field too
   } : null;
 
   const placeholderAc = actinium ? {
-    ...actinium,
+    ...actinium, // Copy properties from Actinium
+    name: "Actinides", // Change name for the placeholder
+    symbol: "Ac-Lr", // Indicate range
+    category: "actinide", // Keep category for color
     xpos: 3,
     ypos: 7,
-    isPlaceholder: true
+    isPlaceholder: true, // Custom flag
+    number: '89-103' // Indicate range in number field too
   } : null;
 
+  // Filter out the actual Lanthanides/Actinides from the main grid display positions
+  // They will be placed in rows 9 and 10 based on their ypos in elements.json
+  const mainGridElements = originalElements.filter(el =>
+    !(el.ypos === 9 || el.ypos === 10) // Keep elements NOT in rows 9 or 10
+  );
+
   const allDisplayElements = [
-    ...originalElements,
-    placeholderLa,
-    placeholderAc
-  ].filter(Boolean); // Combine and remove nulls
+    ...mainGridElements,
+    placeholderLa, // Add the Lanthanide placeholder
+    placeholderAc, // Add the Actinide placeholder
+    // Add the actual Lanthanides and Actinides (they have correct ypos: 9/10)
+    ...originalElements.filter(el => el.ypos === 9 || el.ypos === 10)
+  ].filter(Boolean); // Combine and remove nulls if La/Ac weren't found
 
   // --- State Management ---
-  // State variable to keep track of the currently selected element
-  // Starts as null (no element selected, card is hidden)
   const [selectedElement, setSelectedElement] = useState(null);
 
   // --- Event Handlers ---
-
-  // Function to run when an element tile is clicked
   const handleTileClick = (element) => {
+    // Don't open detail card for the range placeholders
     if (element.isPlaceholder) {
-      // Optional: You might want different behavior for placeholders.
-      // For now, we'll let them open the card too.
-      console.log("Clicked Placeholder for:", element.name, "Series");
-      // If you want to PREVENT placeholders from opening a card, uncomment the next line:
-      // return;
+       console.log("Clicked Placeholder for:", element.name);
+       // Potentially scroll to the Lanthanide/Actinide rows in the future
+       return; // Prevent opening card for placeholders
     }
     console.log("Selecting element:", element);
-    setSelectedElement(element); // Update the state with the data of the clicked element
+    setSelectedElement(element);
   };
 
-  // Function to run when the detail card should be closed
   const handleCloseCard = () => {
     console.log("Closing card");
-    setSelectedElement(null); // Reset the state to null, hiding the card
+    setSelectedElement(null);
   };
 
   // --- Render Logic ---
   return (
     <div className="App">
-      <h1>Modern Periodic Table</h1>
-      <h2>Click any element to see more details</h2>
+      <h1>Modern Visual Periodic Table</h1>
+      <h2>Click an element tile to see details</h2>
       <h5>Created by Ram Bapat</h5>
 
-      {/* The Grid of Element Tiles */}
-      <div className="periodic-table-grid">
-        {allDisplayElements.map(element => (
-          <ElementTile
-            // Unique key is important for React's rendering
-            key={`${element.number}-${element.xpos}-${element.ypos}`}
-            element={element} // Pass element data down to the tile
-            onClick={handleTileClick} // Pass the click handler down to the tile
-          />
-        ))}
+      {/* Add a container to manage scrolling on mobile */}
+      <div className="periodic-table-container">
+        {/* The Grid of Element Tiles */}
+        <div className="periodic-table-grid">
+          {allDisplayElements.map(element => (
+            <ElementTile
+              // Use atomic number and name as key for stability if data changes slightly
+              key={`${element.number}-${element.name}`}
+              element={element}
+              onClick={handleTileClick}
+            />
+          ))}
+        </div>
       </div>
 
       {/* Conditionally Render the Element Detail Card */}
-      {/* This part only renders if 'selectedElement' is not null */}
       {selectedElement && (
         <ElementDetailCard
-          element={selectedElement} // Pass the data of the selected element
-          onClose={handleCloseCard} // Pass the function to close the card
+          element={selectedElement}
+          onClose={handleCloseCard}
         />
       )}
 
@@ -92,7 +106,6 @@ function App() {
       <footer>
         <p>Created by Ram Bapat</p>
         <div className="social-links">
-          {/* --- !!! REMEMBER TO UPDATE THESE URLs !!! --- */}
           <a href="https://www.linkedin.com/in/ram-bapat-barrsum-diamos" target="_blank" rel="noopener noreferrer" aria-label="LinkedIn Profile">
             <FaLinkedin />
           </a>
@@ -106,7 +119,6 @@ function App() {
   );
 }
 
-// Export the App component to be used in main.jsx
 export default App;
 
 // Created by Ram Bapat, www.linkedin.com/in/ram-bapat-barrsum-diamos
