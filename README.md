@@ -82,3 +82,48 @@ To get a local copy up and running, follow these simple steps.
     Open your web browser and navigate to the local URL provided by Vite (usually `http://localhost:5173/` or a similar port).
 
 ## Project Structure
+Modern-Visual-Periodic-Table/
+├── public/ # Static assets (including screenshots)
+├── src/ # Source code
+│ ├── components/ # Reusable React components
+│ │ ├── ElementTile.jsx
+│ │ ├── ElementTile.css
+│ │ ├── ElementDetailCard.jsx
+│ │ ├── ElementDetailCard.css
+│ ├── App.css # Main App component styles
+│ ├── App.jsx # Main Application component (layout, state)
+│ ├── elements.json # Periodic table data
+│ ├── index.css # Global styles
+│ └── main.jsx # Entry point of the React application
+├── .gitignore # Git ignore rules
+├── index.html # Main HTML template
+├── LICENSE.md # MIT License file
+├── package.json # Project dependencies and scripts
+├── README.md # This file
+└── vite.config.js # Vite configuration
+
+
+## Contributing
+
+Contributions, issues, and feature requests are welcome! Feel free to check the [issues page](https://github.com/Barrsum/Modern-Visual-Periodic-Table/issues).
+
+1.  Fork the Project
+2.  Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
+3.  Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
+4.  Push to the Branch (`git push origin feature/AmazingFeature`)
+5.  Open a Pull Request
+
+## License
+
+Distributed under the MIT License. See `LICENSE.md` for more information.
+
+## Acknowledgements
+
+*   **Element Data:** Sourced from [Periodic-Table-JSON](https://github.com/Bowserinator/Periodic-Table-JSON) by Bowserinator.
+*   **Icons:** Provided by [React Icons](https://react-icons.github.io/react-icons/).
+*   **React:** [react.dev](https://react.dev/)
+*   **Vite:** [vitejs.dev](https://vitejs.dev/)
+
+---
+
+Built by Ram Bapat - [LinkedIn Profile](https://www.linkedin.com/in/ram-bapat-barrsum-diamos)
