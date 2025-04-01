@@ -74,12 +74,9 @@ const ElementDetailCard = ({ element, onClose }) => {
               {element.shells?.map((electrons, index) => {
                  // Adjust parameters for potentially smaller view on mobile
                  const shellRadius = 30 + index * 20; // Slightly smaller steps
-                 const displayElectrons = Math.min(electrons, 12); // Limit displayed electrons per shell
+                 const displayElectrons = electrons; // Limit displayed electrons per shell
                  const animationDuration = 10 + index * 10; // Keep animation speed
-
-                 // Prevent rendering shells too far out if data is odd
-                 if (shellRadius > 100) return null; // Limit max radius
-
+                 
                  return (
                     <div
                         key={`path-${index}`}
