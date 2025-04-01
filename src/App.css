@@ -1,87 +1,41 @@
 /* src/App.css */
 
+/* Container for the grid, allows horizontal scrolling on small screens */
+.periodic-table-container {
+  width: 100%; /* Take full available width */
+  overflow-x: auto; /* Enable horizontal scroll if content overflows */
+  -webkit-overflow-scrolling: touch; /* Smooth scrolling on iOS */
+  padding: 0 10px 15px 10px; /* Add padding for breathing room and below scrollbar */
+  margin: 20px auto; /* Center the container */
+  max-width: 100%; /* Ensure it doesn't exceed viewport width itself */
+}
+
+
 .periodic-table-grid {
   display: grid;
-  /* Define 18 columns, each taking up a fraction of the available space */
-  /* Let's use fixed size for consistency */
-  grid-template-columns: repeat(18, 65px); /* 18 columns, each 65px wide */
-  grid-template-rows: repeat(10, 65px);  /* 10 rows, each 65px high (includes lanthanides/actinides rows) */
-  gap: 5px; /* Space between the tiles */
-  padding: 20px;
-  margin: 20px auto; /* Center the grid horizontally */
-  justify-content: center; /* Ensure grid content itself is centered if viewport is wider */
-  max-width: calc(18 * 65px + 17 * 5px + 40px); /* Calculate max width based on columns, gaps, padding */
-}
-
-.element-tile {
-  border: 1px solid #555;
-  padding: 4px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center; /* Center content vertically */
-  text-align: center;
-  background-color: rgba(255, 255, 255, 0.1); /* Semi-transparent white */
-  border-radius: 4px;
-  cursor: pointer; /* Makes it look clickable */
-  transition: transform 0.2s ease, background-color 0.2s ease;
-  font-size: 9px; /* Smaller font for name */
-}
-
-.element-tile strong { /* Style the symbol */
-  font-size: 16px;
-  font-weight: bold;
-  display: block; /* Put symbol on its own line */
-}
-
-.element-tile small { /* Style the atomic number */
-  font-size: 10px;
-  display: block; /* Put number on its own line */
-  margin-bottom: 2px; /* Space between number and name */
-}
-
-
-.element-tile:hover {
-  transform: scale(1.1); /* Slightly enlarge on hover */
-  background-color: rgba(97, 218, 251, 0.3); /* Light blue highlight on hover */
-  border-color: #61dafb;
-  z-index: 10; /* Bring hovered element to the front */
+  /* Desktop Grid */
+  grid-template-columns: repeat(18, 65px); /* 18 columns, 65px wide */
+  grid-template-rows: repeat(10, 65px);  /* 10 rows, 65px high */
+  gap: 5px; /* Space between tiles */
+  /* Calculate width based on columns, gaps. Padding is now on container */
+  /* Inline-block helps contain the grid width naturally */
+  display: inline-grid; /* Changed from grid to inline-grid */
+  /* Center the grid itself *within* the scrolling container */
+  margin: 0 auto;
+  padding: 5px; /* Minimal padding inside grid */
 }
 
 /* Add this to your App.css too, helps center the whole app content */
 .App {
-  text-align: center; /* Centers the H1 heading */
+  text-align: center; /* Centers the H1/H2 headings */
+  overflow-x: hidden; /* Prevent horizontal scroll on the main App div */
 }
-
-.placeholder-tile {
-  border-style: dashed; /* Make border dashed */
-  border-width: 1px;
-  border-color: #aaa; /* Lighter color for placeholder */
-  opacity: 0.7; /* Slightly faded out */
-  background-color: rgba(100, 100, 100, 0.1); /* Different subtle background */
-}
-
-/* Optional: Style for series range labels */
-.series-label {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-size: 10px;
-  color: #aaa;
-  border: 1px dashed #555;
-  border-radius: 4px;
-  padding: 2px;
-  text-align: center;
-   /* Remove pointer events if they shouldn't be interactive like tiles */
-  pointer-events: none;
-}
-
 
 /* --- Footer Styles --- */
 footer {
-  margin-top: 40px; /* Space above the footer */
+  margin-top: 40px;
   padding: 20px;
-  border-top: 1px solid #444; /* Separator line */
+  border-top: 1px solid #444;
   font-size: 0.9em;
   color: #ccc;
   text-align: center;
@@ -92,14 +46,14 @@ footer p {
 }
 
 .social-links a {
-  color: #61dafb; /* React blue or choose another color */
-  font-size: 1.5em; /* Make icons larger */
-  margin: 0 10px; /* Space between icons */
+  color: #61dafb;
+  font-size: 1.5em;
+  margin: 0 10px;
   transition: color 0.2s ease;
 }
 
 .social-links a:hover {
-  color: #fff; /* White on hover */
+  color: #fff;
 }
 
 .data-credit {
@@ -115,28 +69,42 @@ footer p {
     text-decoration: underline;
   }
 
-/* Example Category Coloring (add more as needed) */
-/* Add these classes based on the 'category' field in elements.json */
-.diatomic-nonmetal { background-color: rgba(118, 212, 129, 0.3); border-color: #76d481;}
-.noble-gas { background-color: rgba(195, 141, 241, 0.3); border-color: #c38df1; }
-.alkali-metal { background-color: rgba(241, 182, 141, 0.3); border-color: #f1b68d;}
-.alkaline-earth-metal { background-color: rgba(241, 220, 141, 0.3); border-color: #f1dc8d;}
-.metalloid { background-color: rgba(141, 241, 205, 0.3); border-color: #8df1cd;}
-.polyatomic-nonmetal { background-color: rgba(118, 212, 129, 0.4); border-color: #76d481;} /* Slightly different shade */
-.post-transition-metal { background-color: rgba(169, 190, 198, 0.3); border-color: #a9bec6;}
-.transition-metal { background-color: rgba(226, 170, 170, 0.3); border-color: #e2aaaa;}
-.lanthanide { background-color: rgba(169, 198, 220, 0.3); border-color: #a9c6dc;}
-.actinide { background-color: rgba(204, 182, 220, 0.3); border-color: #ccb6dc;}
-/* Add styles for unknown/hypothetical if needed */
-/* .unknown, .possibly... etc. */
+/* --- Mobile Responsiveness --- */
+@media (max-width: 768px) {
+  .periodic-table-grid {
+    /* Smaller tiles and gaps for mobile */
+    grid-template-columns: repeat(18, 48px); /* Adjust tile size */
+    grid-template-rows: repeat(10, 48px); /* Adjust tile size */
+    gap: 3px; /* Reduce gap */
+    padding: 3px;
+  }
 
+  .periodic-table-container {
+      padding: 0 5px 10px 5px; /* Reduce padding */
+  }
 
-/* Ensure placeholder hover effect doesn't completely override placeholder look */
-.placeholder-tile:hover {
-    opacity: 0.9; /* Less transparent on hover */
-    border-color: #61dafb; /* Highlight border */
-    transform: scale(1.1); /* Keep the scale effect */
-     background-color: rgba(97, 218, 251, 0.3); /* Use standard hover background */
+  footer {
+    margin-top: 25px;
+    padding: 15px;
+    font-size: 0.85em;
+  }
+
+  .social-links a {
+    font-size: 1.4em;
+    margin: 0 8px;
+  }
+}
+
+@media (max-width: 480px) {
+    /* Further adjustments for very small screens if needed */
+    .periodic-table-grid {
+        grid-template-columns: repeat(18, 42px); /* Even smaller tiles */
+        grid-template-rows: repeat(10, 42px);
+        gap: 2px;
+    }
+     .periodic-table-container {
+      padding: 0 2px 8px 2px; /* Minimal padding */
+     }
 }
 
 /* Created by Ram Bapat, www.linkedin.com/in/ram-bapat-barrsum-diamos */
