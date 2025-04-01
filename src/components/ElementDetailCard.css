@@ -2,411 +2,225 @@
 
 /* --- Overlay --- */
 .detail-card-overlay {
-    position: fixed; /* Cover the entire viewport */
-    inset: 0; /* Shortcut for top, right, bottom, left = 0 */
-    background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent black background */
-    display: flex;
-    align-items: center; /* Center vertically */
-    justify-content: center; /* Center horizontally */
-    z-index: 1000; /* Ensure it's above everything else */
-    padding: 15px; /* Padding for smaller screens */
-    backdrop-filter: blur(5px); /* Blur effect for background */
-    cursor: pointer; /* Indicate clicking overlay closes card */
-    animation: fadeInOverlay 0.4s ease-out;
-  }
-  
-  @keyframes fadeInOverlay {
-    from { opacity: 0; backdrop-filter: blur(0px); }
-    to { opacity: 1; backdrop-filter: blur(5px); }
-  }
-  
-  /* --- Card Content Base --- */
+  position: fixed;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.85); /* Slightly darker overlay */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 15px;
+  backdrop-filter: blur(5px);
+  cursor: pointer;
+  animation: fadeInOverlay 0.4s ease-out;
+}
+
+@keyframes fadeInOverlay {
+  from { opacity: 0; backdrop-filter: blur(0px); }
+  to { opacity: 1; backdrop-filter: blur(5px); }
+}
+
+/* --- Card Content Base --- */
+.detail-card-content {
+  --element-color: var(--element-theme-color, #61dafb);
+
+  background: radial-gradient(ellipse at top left, rgba(50, 55, 68, 0.98), rgba(32, 35, 42, 0.98));
+  color: #eee;
+  padding: 20px 30px 30px 30px; /* Default padding */
+  border-radius: 15px; /* Default radius */
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1);
+  border: 1px solid transparent;
+  border-image: linear-gradient(135deg, var(--element-color), rgba(97, 218, 251, 0.6)) 1;
+  max-width: 900px; /* Desktop max width */
+  width: 95%; /* Responsive width */
+  max-height: 90vh; /* Prevent card from being too tall */
+  overflow-y: auto;
+  position: relative;
+  cursor: default;
+  animation: slideInCard 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards;
+}
+
+/* Custom Scrollbar for the Card */
+.detail-card-content::-webkit-scrollbar { width: 8px; }
+.detail-card-content::-webkit-scrollbar-track { background: rgba(0, 0, 0, 0.2); border-radius: 4px; margin: 5px 0; }
+.detail-card-content::-webkit-scrollbar-thumb { background: var(--element-color); border-radius: 4px; border: 1px solid rgba(0, 0, 0, 0.3); }
+.detail-card-content::-webkit-scrollbar-thumb:hover { background: #fff; border-color: transparent; }
+
+@keyframes slideInCard {
+  from { transform: translateY(30px) scale(0.98); opacity: 0; }
+  to { transform: translateY(0) scale(1); opacity: 1; }
+}
+
+/* Close Button */
+.close-button {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  border-radius: 50%;
+  width: 36px;
+  height: 36px;
+  font-size: 2rem;
+  color: #ccc;
+  cursor: pointer;
+  line-height: 32px;
+  text-align: center;
+  padding: 0;
+  transition: all 0.2s ease;
+  z-index: 10;
+}
+.close-button:hover {
+  background: var(--element-color);
+  color: #1e1e1e;
+  transform: rotate(90deg) scale(1.1);
+  border-color: transparent;
+}
+
+/* Detailed Header */
+.card-header-detailed {
+  text-align: center;
+  margin-bottom: 25px; /* Default margin */
+  padding-bottom: 20px; /* Default padding */
+  border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+  position: relative;
+}
+.header-number { position: absolute; top: -5px; left: 0; font-size: 1.2em; color: rgba(255, 255, 255, 0.4); font-weight: bold; }
+.header-symbol { font-size: 4.5em; font-weight: bold; color: #fff; margin: 0; line-height: 1; text-shadow: 0 0 15px var(--element-color), 0 0 5px rgba(255, 255, 255, 0.5); }
+.header-name { font-size: 1.8em; color: #eee; margin: 5px 0 8px 0; font-weight: 300; }
+.header-category { font-size: 0.9em; color: var(--element-color); background-color: rgba(0, 0, 0, 0.3); padding: 3px 10px; border-radius: 15px; display: inline-block; border: 1px solid var(--element-color); text-transform: capitalize; }
+
+/* Detailed Card Body (Grid Layout) */
+.card-body-detailed {
+  display: grid;
+  grid-template-columns: 1fr 1.2fr; /* Default: Visual : Info ratio */
+  gap: 35px; /* Default gap */
+  align-items: start;
+}
+
+/* Animated Visual Area */
+.visual-area-animated {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  padding: 20px; /* Default padding */
+  min-height: 350px; /* Default height */
+  position: relative;
+  overflow: hidden;
+}
+
+/* Animated Bohr Model */
+.bohr-model { position: relative; width: 220px; height: 220px; display: flex; align-items: center; justify-content: center; margin-bottom: 15px; }
+.nucleus { width: 25px; height: 25px; background: radial-gradient(ellipse at center, #ffcc66 50%, #e6a100 100%); border-radius: 50%; position: absolute; z-index: 10; box-shadow: 0 0 15px rgba(255, 204, 102, 0.8), inset 0 0 5px rgba(0,0,0,0.3); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #333; font-size: 0.6em; font-weight: bold; line-height: 1.1; }
+.nucleus span { display: block;}
+.shell-path { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border: 1px dashed rgba(255, 255, 255, 0.2); border-radius: 50%; }
+.electron-container { position: absolute; top: 0; left: 0; width: 100%; height: 100%; }
+.electron { width: 8px; height: 8px; background-color: var(--element-color); border-radius: 50%; position: absolute; top: 50%; left: 50%; margin-top: -4px; margin-left: -4px; box-shadow: 0 0 6px var(--element-color), 0 0 10px rgba(255, 255, 255, 0.7); }
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+
+/* Info Area Blocks */
+.info-area-blocks { display: flex; flex-direction: column; gap: 18px; }
+.info-block { background: rgba(255, 255, 255, 0.05); border-radius: 8px; padding: 15px 20px; border: 1px solid rgba(255, 255, 255, 0.1); }
+
+/* Key Stats Block */
+.key-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); gap: 18px 15px; padding: 18px 15px; background: rgba(0, 0, 0, 0.1); }
+.stat { display: flex; flex-direction: column; align-items: center; text-align: center; }
+.stat-icon { font-size: 1.6em; color: var(--element-color); margin-bottom: 8px; opacity: 0.8; }
+.stat-label { font-size: 0.7em; color: #aaa; text-transform: uppercase; margin-bottom: 4px; font-weight: bold; line-height: 1.2; }
+.stat-value { font-size: 1em; color: #eee; font-weight: 500; line-height: 1.3; word-break: break-word; }
+.appearance-stat .stat-value { font-size: 0.9em; text-transform: capitalize; }
+
+/* Atomic Structure & Discovery Blocks */
+.atomic-structure h4, .discovery h4 { font-size: 1.1em; color: #ccc; margin: -5px 0 15px 0; font-weight: 500; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px; display: flex; align-items: center; }
+.atomic-structure h4 svg, .discovery h4 svg { margin-right: 8px; color: var(--element-color); font-size: 1.1em; opacity: 0.8; }
+.detail-item { display: flex; align-items: baseline; margin-bottom: 10px; font-size: 0.95em; }
+.detail-label { color: #aaa; min-width: 130px; flex-shrink: 0; margin-right: 10px; font-weight: bold; }
+.detail-value { color: #eee; flex-grow: 1; }
+.detail-value.config, .detail-value.shells { font-family: 'Courier New', Courier, monospace; font-size: 0.9em; word-break: break-all; }
+.detail-value.shells { letter-spacing: 1px; }
+.discovery .detail-value { font-size: 0.9em; }
+.source-link { margin-top: 15px; align-items: center; }
+.source-link .detail-icon { font-size: 1em; margin-right: 8px; color: #a0d8ef; flex-shrink: 0; transition: color 0.2s ease; }
+.source-link a { color: #a0d8ef; text-decoration: none; font-size: 0.9em; display: inline-flex; align-items: center; transition: color 0.2s ease; }
+.source-link a:hover, .source-link a:hover .detail-icon { color: var(--element-color); text-decoration: underline; }
+
+/* Summary Block */
+.summary { background: none; border: none; padding: 0; margin-top: 5px; }
+.summary h4 { font-size: 1.1em; color: #ccc; margin-bottom: 10px; font-weight: 500; border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding-bottom: 8px; }
+.summary p { font-size: 0.9em; line-height: 1.6; color: #bbb; margin: 0; }
+
+
+/* --- Mobile Responsiveness for Detail Card --- */
+@media (max-width: 768px) {
   .detail-card-content {
-    /* Use the element's theme color (set via inline style in JSX) */
-    --element-color: var(--element-theme-color, #61dafb); /* Default to React blue */
-  
-    background: radial-gradient(ellipse at top left, rgba(50, 55, 68, 0.98), rgba(32, 35, 42, 0.98)); /* Dark gradient background */
-    color: #eee;
-    padding: 20px 30px 30px 30px;
-    border-radius: 15px;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(255, 255, 255, 0.1); /* Enhanced shadow + subtle border */
-    border: 1px solid transparent; /* Placeholder for gradient border */
-    border-image: linear-gradient(135deg, var(--element-color), rgba(97, 218, 251, 0.6)) 1; /* Gradient border */
-    max-width: 900px; /* Max width of the card */
-    width: 95%; /* Responsive width */
-    max-height: 90vh; /* Prevent card from being too tall */
-    overflow-y: auto; /* Allow scrolling if content overflows */
-    position: relative; /* Needed for absolute positioning of close button */
-    cursor: default; /* Reset cursor for the card content */
-    animation: slideInCard 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards; /* Smoother slide-in */
+    padding: 15px 20px 20px 20px; /* Reduce padding */
+    max-height: 95vh; /* Allow slightly more height */
+    border-radius: 10px; /* Smaller radius */
+    backface-visibility: hidden;
   }
-  
-  /* --- Custom Scrollbar for the Card --- */
-  .detail-card-content::-webkit-scrollbar {
-      width: 8px;
-  }
-  .detail-card-content::-webkit-scrollbar-track {
-      background: rgba(0, 0, 0, 0.2);
-      border-radius: 4px;
-      margin: 5px 0; /* Add some margin */
-  }
-  .detail-card-content::-webkit-scrollbar-thumb {
-      background: var(--element-color); /* Use theme color */
-      border-radius: 4px;
-      border: 1px solid rgba(0, 0, 0, 0.3);
-  }
-  .detail-card-content::-webkit-scrollbar-thumb:hover {
-      background: #fff; /* White on hover */
-      border-color: transparent;
-  }
-  
-  /* Card slide-in animation */
-  @keyframes slideInCard {
-    from { transform: translateY(30px) scale(0.98); opacity: 0; }
-    to { transform: translateY(0) scale(1); opacity: 1; }
-  }
-  
-  /* --- Close Button --- */
+
   .close-button {
-    position: absolute;
-    top: 12px;
-    right: 12px;
-    background: rgba(255, 255, 255, 0.1);
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    font-size: 2rem;
-    color: #ccc;
-    cursor: pointer;
-    line-height: 32px; /* Adjust to vertically center 'X' */
-    text-align: center;
-    padding: 0;
-    transition: all 0.2s ease;
-    z-index: 10; /* Ensure it's above card content */
+    top: 8px;
+    right: 8px;
+    width: 32px;
+    height: 32px;
+    font-size: 1.8rem;
+    line-height: 29px; /* Adjust line height */
   }
-  
-  .close-button:hover {
-    background: var(--element-color);
-    color: #1e1e1e;
-    transform: rotate(90deg) scale(1.1);
-    border-color: transparent;
-  }
-  
-  /* --- Detailed Header --- */
+
   .card-header-detailed {
-    text-align: center;
-    margin-bottom: 25px;
-    padding-bottom: 20px;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.15);
-    position: relative;
+    margin-bottom: 20px; /* Reduce margin */
+    padding-bottom: 15px; /* Reduce padding */
   }
-  
-  .header-number {
-      position: absolute;
-      top: -5px;
-      left: 0;
-      font-size: 1.2em;
-      color: rgba(255, 255, 255, 0.4);
-      font-weight: bold;
-  }
-  
-  .header-symbol {
-      font-size: 4.5em;
-      font-weight: bold;
-      color: #fff;
-      margin: 0;
-      line-height: 1;
-      text-shadow: 0 0 15px var(--element-color), 0 0 5px rgba(255, 255, 255, 0.5); /* Glow effect */
-  }
-  
-  .header-name {
-      font-size: 1.8em;
-      color: #eee;
-      margin: 5px 0 8px 0;
-      font-weight: 300;
-  }
-  
-  .header-category {
-      font-size: 0.9em;
-      color: var(--element-color);
-      background-color: rgba(0, 0, 0, 0.3);
-      padding: 3px 10px;
-      border-radius: 15px;
-      display: inline-block;
-      border: 1px solid var(--element-color);
-      text-transform: capitalize;
-  }
-  
-  /* --- Detailed Card Body (Grid Layout) --- */
+  .header-number { font-size: 1em; top: -2px;}
+  .header-symbol { font-size: 3.5em; } /* Smaller symbol */
+  .header-name { font-size: 1.5em; } /* Smaller name */
+  .header-category { font-size: 0.8em; padding: 2px 8px; }
+
   .card-body-detailed {
-    display: grid;
-    grid-template-columns: 1fr 1.2fr; /* Visual : Info ratio */
-    gap: 35px;
-    align-items: start; /* Align content to top */
+    grid-template-columns: 1fr; /* Stack columns */
+    gap: 25px; /* Adjust gap */
   }
-  
-  /* Responsive layout for smaller screens */
-  @media (max-width: 768px) {
-    .card-body-detailed {
-      grid-template-columns: 1fr; /* Stack columns */
-      gap: 25px;
-    }
-    .visual-area-animated {
-       min-height: 320px;
-       order: -1; /* Move visual area to the top */
-    }
-    .header-symbol { font-size: 3.5em; }
-    .header-name { font-size: 1.5em; }
-  }
-  
-  /* --- Animated Visual Area --- */
+
   .visual-area-animated {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    background: rgba(0, 0, 0, 0.2);
-    border-radius: 10px;
-    padding: 20px;
-    min-height: 350px;
-    position: relative;
-    overflow: hidden;
+     min-height: 280px; /* Reduce height */
+     padding: 15px; /* Reduce padding */
+     order: -1; /* Move visual area to the top on mobile */
+     /* Optional: Scale down the Bohr model slightly if needed */
+     /* .bohr-model { transform: scale(0.9); } */
   }
-  
-  /* --- Animated Bohr Model --- */
-  .bohr-model {
-    position: relative;
-    width: 220px; /* Base size, shells expand outwards */
-    height: 220px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    margin-bottom: 15px;
-  }
-  
-  /* Nucleus */
-  .nucleus {
-    width: 25px;
-    height: 25px;
-    background: radial-gradient(ellipse at center, #ffcc66 50%, #e6a100 100%);
-    border-radius: 50%;
-    position: absolute;
-    z-index: 10; /* Above shell paths/electrons */
-    box-shadow: 0 0 15px rgba(255, 204, 102, 0.8), inset 0 0 5px rgba(0,0,0,0.3);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: #333;
-    font-size: 0.6em;
-    font-weight: bold;
-    line-height: 1.1;
-  }
-  .nucleus span { display: block;}
-  
-  
-  /* Shell Path (Static visual line) */
-  .shell-path {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border: 1px dashed rgba(255, 255, 255, 0.2);
-    border-radius: 50%;
-    /* No animation */
-  }
-  
-  /* Electron Container (Invisible rotating container) */
-  .electron-container {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      /* Animation applied via inline style in JSX */
-  }
-  
-  /* Electron */
-  .electron {
-    width: 8px;
-    height: 8px;
-    background-color: var(--element-color);
-    border-radius: 50%;
-    position: absolute;
-    top: 50%; /* Center relative to rotating container */
-    left: 50%;
-    margin-top: -4px; /* Offset by half height */
-    margin-left: -4px; /* Offset by half width */
-    box-shadow: 0 0 6px var(--element-color), 0 0 10px rgba(255, 255, 255, 0.7);
-    /* Transform applied via inline style in JSX */
-  }
-  
-  /* Spin animation for electron containers */
-  @keyframes spin {
-    from { transform: rotate(0deg); }
-    to { transform: rotate(360deg); }
-  }
-  
-  /* --- Info Area Blocks --- */
+
   .info-area-blocks {
-    display: flex;
-    flex-direction: column;
-    gap: 18px;
+      gap: 15px; /* Reduce gap */
   }
-  
-  /* Info Block base style */
+
   .info-block {
-    background: rgba(255, 255, 255, 0.05);
-    border-radius: 8px;
-    padding: 15px 20px;
-    border: 1px solid rgba(255, 255, 255, 0.1);
+      padding: 12px 15px; /* Reduce padding */
   }
-  
-  /* Key Stats Block */
+
   .key-stats {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr)); /* Responsive columns */
-      gap: 18px 15px; /* Row gap, Column gap */
-      padding: 18px 15px;
-      background: rgba(0, 0, 0, 0.1); /* Slightly different background */
+      grid-template-columns: repeat(auto-fit, minmax(85px, 1fr)); /* Adjust minmax */
+      gap: 15px 10px; /* Adjust gap */
+      padding: 15px 10px; /* Reduce padding */
   }
-  
-  /* Stat element styling */
-  .stat {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      text-align: center;
+  .stat-icon { font-size: 1.4em; margin-bottom: 6px; }
+  .stat-label { font-size: 0.65em; }
+  .stat-value { font-size: 0.9em; }
+
+  .atomic-structure h4, .discovery h4, .summary h4 {
+      font-size: 1em; /* Slightly smaller headings */
+      margin-bottom: 12px;
   }
-  .stat-icon {
-      font-size: 1.6em;
-      color: var(--element-color);
-      margin-bottom: 8px;
-      opacity: 0.8;
-  }
-  .stat-label {
-      font-size: 0.7em;
-      color: #aaa;
-      text-transform: uppercase;
-      margin-bottom: 4px;
-      font-weight: bold;
-      line-height: 1.2;
-  }
-  .stat-value {
-      font-size: 1em;
-      color: #eee;
-      font-weight: 500;
-      line-height: 1.3;
-      word-break: break-word; /* Allow wrapping */
-  }
-  .appearance-stat .stat-value {
-      font-size: 0.9em;
-      text-transform: capitalize;
-  }
-  
-  /* Atomic Structure Block */
-  .atomic-structure h4,
-  .discovery h4 { /* Shared style for block headings */
-      font-size: 1.1em;
-      color: #ccc;
-      margin: -5px 0 15px 0; /* Negative top margin pulls it up slightly */
-      font-weight: 500;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 8px;
-      display: flex;
-      align-items: center;
-  }
-  .atomic-structure h4 svg,
-  .discovery h4 svg { /* Shared style for icons in headings */
-      margin-right: 8px;
-      color: var(--element-color);
-      font-size: 1.1em;
-      opacity: 0.8;
-  }
-  
-  /* Detail Item Styling (Label/Value pairs) */
-  .detail-item {
-      display: flex;
-      align-items: baseline; /* Align text nicely */
-      margin-bottom: 10px;
-      font-size: 0.95em;
-  }
-  .detail-label {
-      color: #aaa;
-      min-width: 130px;
-      flex-shrink: 0;
-      margin-right: 10px;
-      font-weight: bold;
-  }
-  .detail-value {
-      color: #eee;
-      flex-grow: 1;
-  }
-  .detail-value.config,
-  .detail-value.shells {
-      font-family: 'Courier New', Courier, monospace;
-      font-size: 0.9em;
-      word-break: break-all;
-  }
-  .detail-value.shells {
-      letter-spacing: 1px;
-  }
-  
-  /* Discovery Block Specific */
-  .discovery .detail-value {
-      font-size: 0.9em;
-  }
-  
-  /* Source Link Styling */
-  .source-link {
-      margin-top: 15px;
-      align-items: center;
-  }
-  .source-link .detail-icon { /* Icon used in the link */
-      font-size: 1em;
-      margin-right: 8px;
-      color: #a0d8ef;
-      flex-shrink: 0;
-      transition: color 0.2s ease;
-  }
-  .source-link a {
-      color: #a0d8ef;
-      text-decoration: none;
-      font-size: 0.9em;
-      display: inline-flex;
-      align-items: center;
-      transition: color 0.2s ease;
-  }
-  .source-link a:hover,
-  .source-link a:hover .detail-icon {
-      color: var(--element-color);
-      text-decoration: underline;
-  }
-  
-  
-  /* Summary Block */
-  .summary {
-      background: none;
-      border: none;
-      padding: 0;
-      margin-top: 5px;
-  }
-  .summary h4 {
-      font-size: 1.1em;
-      color: #ccc;
-      margin-bottom: 10px;
-      font-weight: 500;
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-      padding-bottom: 8px;
-  }
-  .summary p {
-      font-size: 0.9em;
-      line-height: 1.6;
-      color: #bbb;
-      margin: 0;
-  }
+  .detail-item { font-size: 0.9em; margin-bottom: 8px; display: block; /* Stack label and value */}
+  .detail-label { min-width: auto; margin-right: 0; margin-bottom: 3px; font-size: 0.8em; display: block; /* Make label block */}
+  .detail-value.config, .detail-value.shells { font-size: 0.85em; }
+
+  .summary p { font-size: 0.85em; line-height: 1.5; }
+  .source-link a { font-size: 0.85em; }
+}
 
 
-
-  /* Created by Ram Bapat, www.linkedin.com/in/ram-bapat-barrsum-diamos */
+/* Created by Ram Bapat, www.linkedin.com/in/ram-bapat-barrsum-diamos */
