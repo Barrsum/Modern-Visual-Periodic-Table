@@ -7,9 +7,9 @@ import {
     FaUserAstronaut, FaLink, FaAtom, FaThermometerEmpty, FaThermometerFull, FaEye
 } from 'react-icons/fa';
 
-// Helper function to get theme color
+// Helper function to get theme color (using normalized class names)
 const getCategoryColor = (category) => {
-    const categoryClass = category ? category.replace(/\s+/g, '-') : 'unknown';
+    const categoryClass = category ? category.replace(/\s+/g, '-').toLowerCase() : 'unknown';
     const colors = {
         'diatomic-nonmetal': '#7FFF00', 'noble-gas': '#800080',
         'alkali-metal': '#FFA500', 'alkaline-earth-metal': '#FFFF00',
@@ -35,15 +35,16 @@ const ElementDetailCard = ({ element, onClose }) => {
     return null;
   }
 
-  const themeColor = getCategoryColor(element.category);
-  const categoryClass = element.category ? element.category.replace(/\s+/g, '-') : 'unknown';
+  // Normalize category name for CSS class and color lookup
+  const normalizedCategory = element.category ? element.category.replace(/\s+/g, '-').toLowerCase() : 'unknown';
+  const themeColor = getCategoryColor(element.category); // Use original category for lookup logic
 
   return (
     <div className="detail-card-overlay" onClick={onClose}>
       <div
-        className={`detail-card-content ${categoryClass}`}
+        className={`detail-card-content ${normalizedCategory}`} // Use normalized class
         onClick={(e) => e.stopPropagation()}
-        style={{ '--element-theme-color': themeColor }}
+        style={{ '--element-theme-color': themeColor }} // Set CSS variable
       >
         <button className="close-button" onClick={onClose} aria-label="Close details">
           ×
@@ -54,24 +55,30 @@ const ElementDetailCard = ({ element, onClose }) => {
            <span className="header-number">#{element.number}</span>
            <h2 className="header-symbol">{element.symbol}</h2>
            <h3 className="header-name">{element.name}</h3>
+           {/* Display original category name */}
            <div className="header-category">{element.category || 'Unknown Category'}</div>
         </div>
 
-        {/* Card Body (Grid Layout) */}
+        {/* Card Body (Grid Layout - CSS handles stacking on mobile) */}
         <div className="card-body-detailed">
 
           {/* Visual Area (Revised Bohr Model Animation) */}
           <div className="visual-area-animated">
             <div className="bohr-model">
               <div className="nucleus">
+                  {/* Use Math.round for neutron count */}
                   <span className='proton-count'>{element.number}p</span>
-                  {element.atomic_mass && <span className='neutron-count'>{~~(element.atomic_mass - element.number)}n</span>}
+                  {element.atomic_mass && <span className='neutron-count'>{Math.round(element.atomic_mass - element.number)}n</span>}
               </div>
               {/* Shell Paths and Electron Containers */}
               {element.shells?.map((electrons, index) => {
-                 const shellRadius = 35 + index * 25;
-                 const displayElectrons = Math.min(electrons, 12);
-                 const animationDuration = 10 + index * 10;
+                 // Adjust parameters for potentially smaller view on mobile
+                 const shellRadius = 30 + index * 20; // Slightly smaller steps
+                 const displayElectrons = Math.min(electrons, 12); // Limit displayed electrons per shell
+                 const animationDuration = 10 + index * 10; // Keep animation speed
+
+                 // Prevent rendering shells too far out if data is odd
+                 if (shellRadius > 100) return null; // Limit max radius
 
                  return (
                     <div
@@ -156,31 +163,44 @@ const ElementDetailCard = ({ element, onClose }) => {
                      <span className="detail-label">Electrons per Shell:</span>
                      <span className="detail-value shells">{element.shells?.join(', ') || 'N/A'}</span>
                  </div>
+                  {/* Add Electronegativity if available */}
+                 {element.electronegativity_pauling !== null && element.electronegativity_pauling !== undefined && (
+                     <div className="detail-item">
+                         <span className="detail-label">Electronegativity:</span>
+                         <span className="detail-value">{element.electronegativity_pauling} (Pauling)</span>
+                     </div>
+                 )}
              </div>
 
 
              {/* Discovery Info Block */}
-            <div className="info-block discovery">
-                 <h4><FaUserAstronaut /> Discovery & Source</h4>
-                 <div className="detail-item">
-                     <span className="detail-label">Discovered by:</span>
-                     <span className="detail-value">{element.discovered_by || 'N/A'}</span>
-                 </div>
-                {element.source && (
-                    <div className="detail-item source-link">
-                        <FaLink className="detail-icon"/>
-                        <a href={element.source} target="_blank" rel="noopener noreferrer">
-                           Learn More (Source)
-                        </a>
-                    </div>
-                 )}
-            </div>
+             { (element.discovered_by || element.source) && ( // Only show if there's data
+                 <div className="info-block discovery">
+                     <h4><FaUserAstronaut /> Discovery & Source</h4>
+                     {element.discovered_by && (
+                         <div className="detail-item">
+                             <span className="detail-label">Discovered by:</span>
+                             <span className="detail-value">{element.discovered_by}</span>
+                         </div>
+                     )}
+                    {element.source && (
+                        <div className="detail-item source-link">
+                            {/* Use FaLink within the link for better semantics */}
+                            <a href={element.source} target="_blank" rel="noopener noreferrer">
+                               <FaLink className="detail-icon"/> Learn More (Source)
+                            </a>
+                        </div>
+                     )}
+                </div>
+            )}
 
             {/* Summary Block */}
-            <div className="info-block summary">
-                <h4>Summary</h4>
-                <p>{element.summary || 'No summary available.'}</p>
-            </div>
+            {element.summary && ( // Only show if there's data
+                <div className="info-block summary">
+                    <h4>Summary</h4>
+                    <p>{element.summary}</p>
+                </div>
+            )}
 
           </div> {/* End info-area-blocks */}
         </div> {/* End card-body-detailed */}
